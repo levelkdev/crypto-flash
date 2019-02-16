@@ -3,19 +3,29 @@
   "version": "0.1.0",
   "description": "send me some eth, how bout dat?",
   "dependencies": {
-    "react": "16.3.2",
-    "react-dom": "16.3.2",
     "@ensdomains/ens": "0.3.3",
-    "openzeppelin-solidity": "2.1.2"
+    "openzeppelin-solidity": "2.1.2",
+    "react": "16.8.2",
+    "react-dom": "16.8.2"
   },
   "devDependencies": {
-    "babel-polyfill": "6.26.0",
-    "babel-register": "6.26.0",
+    "@babel/core": "^7.0.0-0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-plugin-styled-components": "^1.8.0",
+    "cross-env": "5.2.0",
     "ganache-cli": "6.3.0-beta.0",
+    "parcel-bundler": "1.11.0",
+    "styled-components": "4.0.0",
     "truffle": "5.0.4",
     "truffle-hdwallet-provider": "1.0.4"
   },
   "scripts": {
+    "start": "cross-env NODE_ENV=development parcel app/index.html ",
+    "build": "cross-env NODE_ENV=development parcel build app/index.html --no-minify --public-url /",
     "cleanup": "rm -rf build",
     "compile": "npm run cleanup && truffle compile --all"
   }
