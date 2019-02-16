@@ -5,22 +5,27 @@ import {
   Route
 } from 'react-router-dom'
 import sparkle from './assets/sparkle.png'
+import bufficorn from './assets/bufficorn.png'
 import Home from './views/Home'
 import Claim from './views/Claim'
 
 const App = () => (
   <Router>
-    <AppStyled>
+    <React.Fragment>
       <SparkleImg src={sparkle} />
       <TitleText>Crypto Flash</TitleText>
-      <Route exact path="/" component={Home}/>
-      <Route path="/claim" component={Claim}/>
-    </AppStyled>
+      <Content>
+        <Route exact path="/" component={Home}/>
+        <Route path="/claim" component={Claim}/>
+      </Content>
+      <BigSparkle src={sparkle} />
+      <Bufficorn src={bufficorn} />
+    </React.Fragment>
   </Router>
 )
 
-const AppStyled = styled.div`
-  
+const Content = styled.div`
+  text-align: center;
 `
 
 const TitleText = styled.span`
@@ -32,6 +37,22 @@ const TitleText = styled.span`
 
 const SparkleImg = styled.img`
   width: 50px;
+`
+
+const BigSparkle = styled.img`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 150px;
+`
+
+const Bufficorn = styled.img`
+  position: absolute;
+  bottom: 5px;
+  right: 200px;
+  width: 80px;
+  transform: scaleX(-1) rotate(60deg);
+  filter: FlipH;
 `
 
 export default App

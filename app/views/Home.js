@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Balance from '../components/Balance'
 import SendFunds from '../components/SendFunds'
 
 class Home extends React.Component {
@@ -11,6 +12,8 @@ class Home extends React.Component {
   render() {
     return (
       <div>
+        <Balance />
+        <br /><br />
         <SendFunds />
       </div>
     )
