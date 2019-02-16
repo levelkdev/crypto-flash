@@ -4,6 +4,9 @@
   "description": "send me some eth, how bout dat?",
   "dependencies": {
     "@ensdomains/ens": "0.3.3",
+    "axios": "^0.18.0",
+    "core-js": "^2.6.5",
+    "express": "4.16.4",
     "openzeppelin-solidity": "2.1.2",
     "react": "16.8.2",
     "react-dom": "16.8.2"
@@ -26,6 +29,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development parcel app/index.html ",
     "build": "cross-env NODE_ENV=development parcel build app/index.html --no-minify --public-url /",
+    "service": "node service/main.js",
     "cleanup": "rm -rf build",
     "compile": "npm run cleanup && truffle compile --all"
   }
