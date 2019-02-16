@@ -9,7 +9,8 @@
     "express": "4.16.4",
     "openzeppelin-solidity": "2.1.2",
     "react": "16.8.2",
-    "react-dom": "16.8.2"
+    "react-dom": "16.8.2",
+    "react-router-dom": "4.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
@@ -27,11 +28,12 @@
     "truffle-hdwallet-provider": "1.0.4"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development parcel app/index.html ",
-    "build": "cross-env NODE_ENV=development parcel build app/index.html --no-minify --public-url /",
+    "start": "npm run cleanup:build && cross-env NODE_ENV=development parcel app/index.html ",
+    "build": "npm run cleanup:build && cross-env NODE_ENV=development parcel build app/index.html --no-minify --public-url /",
     "service": "node service/main.js",
-    "cleanup": "rm -rf build",
-    "compile": "npm run cleanup && truffle compile --all",
+    "cleanup:build": "rm -rf build",
+    "cleanup:dist": "rm -rf dist",
+    "compile": "npm run cleanup:build && truffle compile --all",
     "deploy": "truffle exec scripts/deploy_dependencies.js",
     "ganache": "scripts/run_ganache.sh"
   }

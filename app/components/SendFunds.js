@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const CREATE_ACCOUNT_SIGNER_API = 'http://localhost:3000'
 
-class MakeRequest extends React.Component {
+class SendFunds extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -23,7 +23,7 @@ class MakeRequest extends React.Component {
 
   render() {
     return (
-      <Button onClick={this.handleClick}>MAKE REQUEST</Button>
+      <Button onClick={this.handleClick}>Send Funds</Button>
     )
   }
 }
@@ -36,4 +36,4 @@ const Button = styled.div`
   display: inline-block;
 `
 
-export default MakeRequest
+export default SendFunds
