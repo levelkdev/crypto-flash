@@ -1,11 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import sparkle from './assets/sparkle.png'
+import MakeRequest from './components/MakeRequest'
 
 const App = () => (
   <AppStyled>
     <SparkleImg src={sparkle} />
     <TitleText>Crypto Flash</TitleText>
+    <br /><br />
+    <MakeRequest />
   </AppStyled>
 )
 
