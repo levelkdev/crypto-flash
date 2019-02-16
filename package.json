@@ -1,0 +1,22 @@
+{
+  "name": "crypto-flash",
+  "version": "0.1.0",
+  "description": "send me some eth, how bout dat?",
+  "dependencies": {
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "@ensdomains/ens": "0.3.3",
+    "openzeppelin-solidity": "2.1.2"
+  },
+  "devDependencies": {
+    "babel-polyfill": "6.26.0",
+    "babel-register": "6.26.0",
+    "ganache-cli": "6.3.0-beta.0",
+    "truffle": "5.0.4",
+    "truffle-hdwallet-provider": "1.0.4"
+  },
+  "scripts": {
+    "cleanup": "rm -rf build",
+    "compile": "npm run cleanup && truffle compile --all"
+  }
+}
