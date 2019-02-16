@@ -27,6 +27,8 @@
     "start": "cross-env NODE_ENV=development parcel app/index.html ",
     "build": "cross-env NODE_ENV=development parcel build app/index.html --no-minify --public-url /",
     "cleanup": "rm -rf build",
-    "compile": "npm run cleanup && truffle compile --all"
+    "compile": "npm run cleanup && truffle compile --all",
+    "deploy": "truffle exec scripts/deploy_dependencies.js",
+    "ganache": "scripts/run_ganache.sh"
   }
 }
