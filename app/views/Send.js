@@ -8,21 +8,74 @@ import LinkButton from '../components/LinkButton'
 class Send extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      ethAmount: '',
+      linkGenerationPending: false,
+      link: null
+    }
+  }
+
+  async generateLink () {
+    this.setState({
+      linkGenerationPending: true
+    })
+    await createTempAccount(this.state.ethAmount)
+    this.setState({
+      linkGenerationPending: false,
+      link: 'http://something.something'
+    })
+  }
+
+  updateEthAmount (evt) {
+    this.setState({
+      ethAmount: evt.target.value
+    })
+  }
+
+  renderForm () {
+    return (
+      <React.Fragment>
+        <TextInputStyled value={this.state.ethAmount} onChange={this.updateEthAmount.bind(this)} />
+        <Button onClick={this.generateLink.bind(this)}>Generate Link</Button>
+        <br />
+        <Link to="/">
+          <LinkButton>Cancel</LinkButton>
+        </Link>
+      </React.Fragment>
+    )
+  }
+
+  renderPending () {
+    return (
+      <div>PENDING...</div>
+    )
+  }
+
+  renderLink () {
+    return (
+      <div>LINKKKK</div>
+    )
   }
 
   render() {
     return (
       <div>
-        <TextInputStyled />
-        <Button>Generate Link</Button>
-        <br />
-        <Link to="/">
-          <LinkButton>Cancel</LinkButton>
-        </Link>
+        {!this.state.linkGenerationPending && !this.state.link ? this.renderForm() : null}
+        {this.state.linkGenerationPending ? this.renderPending() : null}
+        {this.state.link ? this.renderLink() : null}
       </div>
     )
   }
+}
+
+async function createTempAccount (ethAmount) {
+  // TODO: create a temporary account and send it eth
+  console.log(`CREATE ACCOUNT WITH ${ethAmount} ETH`)
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, 1000)
+  })
 }
 
 const TextInputStyled = styled(TextInput)`
