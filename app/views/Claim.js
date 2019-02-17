@@ -6,6 +6,12 @@ import TextInput from '../components/TextInput'
 import EthSpinner from '../components/EthSpinner'
 import getCredentials from '../utils'
 import axios from 'axios'
+import web3 from '../web3'
+import config from '../../configs/config.js'
+import { getEnsLabelHash } from '@netgum/utils'
+
+const { soliditySha3 } = web3.utils
+const { sign } = web3.eth
 
 const CREATE_ACCOUNT_SIGNER_API = 'http://localhost:3000'
 
@@ -50,43 +56,45 @@ class Claim extends React.Component {
     this.fetchData()
   }
 
-  claimFunds () {
+  async claimFunds () {
     this.setState({
       pending: true
     })
     const $this = this
     const ensSubdomain = 'account3.test'
-    // TODO: do the whole fund claiming thing??
-    return new Promise((resolve, reject) => {
+    const refundAmount = 0
+    const { privateKey, deviceAddress, walletContract } = await getCredentials()
+
+    return new Promise(async (resolve, reject) => {
       let accountAddressEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/accountForDevice`
       accountAddressEndpoint += '?'
-      accountAddressEndpoint += 'ensSubdomain=' + ensSubdomain
+      accountAddressEndpoint += 'device=' + deviceAddress
       console.log(`Requesting ${accountAddressEndpoint}`)
       let reservedAddress
-      axios.get(accountAddressEndpoint).then((res) => {
-        console.log('RESPONSE: ', res)
-        reservedAddress = res.data
-      }).then(() => {
-        // TODO: Sweep funds to reservedAddress
-      }).then(() => {
-        const ensSubdomain = 'account3.test'
-        const refundAmount = 0
-        const deviceSignature = '0x3aad30cf5c545632bc54353fbc992f0bc8b91c5e87a5e43cee5f199a7765ddad41781831a5a38dffecb6a343316bfa4de6263f9f7aa66dd8abf7e7d17c8e194a00'
-
-        let accountAddressEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/signCreateAccount`
-        accountAddressEndpoint += '?'
-        accountAddressEndpoint += 'ensSubdomain=' + ensSubdomain + '&'
-        accountAddressEndpoint += 'refundAmount=' + refundAmount + '&'
-        accountAddressEndpoint += 'deviceSignature=' + deviceSignature
-        console.log(`Requesting ${accountAddressEndpoint}`)
-        return axios.get(accountAddressEndpoint)
-      }).then((res) => {
-        console.log('RESPONSE: ', res)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+      const accountAddressRes = await axios.get(accountAddressEndpoint)
+      console.log('RESPONSE: ', accountAddressRes)
+      reservedAddress = accountAddressRes.data
       
+      // TODO: Sweep funds to reservedAddress
+
+      const message = soliditySha3(
+        config.accountProviderAddress,
+        '0x0ed641b2', //getMethodSignature('createAccount', 'bytes32', 'uint256', 'bytes'),
+        getEnsLabelHash(ensSubdomain),
+        refundAmount,
+      )
+
+      const deviceSignature = await sign(message, deviceAddress)
+
+      let createAccountEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/signCreateAccount`
+      createAccountEndpoint += '?'
+      createAccountEndpoint += 'ensSubdomain=' + ensSubdomain + '&'
+      createAccountEndpoint += 'refundAmount=' + refundAmount + '&'
+      createAccountEndpoint += 'deviceSignature=' + deviceSignature
+      console.log(`Requesting ${createAccountEndpoint}`)
+      let createAccountResponse = await axios.get(createAccountEndpoint)
+      console.log('RESPONSE: ', res)
+
       // setTimeout(() => {
       //   $this.props.history.push('/')
       //   resolve()
