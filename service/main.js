@@ -62,6 +62,7 @@ app.get('/signCreateAccount', function (req, res) {
     
     return web3.eth.accounts.signTransaction({
       from: guardian.address,
+      to: config.accountProviderAddress,
       gas: estimateGas,
       gasPrice: 10000000000,
       data: txData

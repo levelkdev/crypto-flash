@@ -4,5 +4,5 @@ const rpcProviderURL = 'https://rinkeby.infura.io/v3/' + infuraAPIKey
 
 module.exports = {
   rpcProviderURL,
-  accountProviderAddress: '0xA35d270f0586d99Bda2DD4CB3ED8DBa7051e445E'
+  accountProviderAddress: '0x07fE5F68D2b9a9E478B10012a8D283Fa0e0F7A39'
 }
