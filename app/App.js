@@ -17,10 +17,6 @@ class App extends React.Component {
     this.state = {}
   }
 
-  componentDidMount () {
-    console.log('MOUNTED')
-  }
-
   render () {
     return (
       <Router>

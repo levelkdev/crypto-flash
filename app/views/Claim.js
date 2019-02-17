@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Button from '../components/Button'
 import TextInput from '../components/TextInput'
 import EthSpinner from '../components/EthSpinner'
+import getCredentials from '../utils'
 
 class Claim extends React.Component {
   constructor(props) {
@@ -57,6 +58,12 @@ class Claim extends React.Component {
         {!this.state.claimBalance ? this.renderPending() : this.renderClaimForm()}
       </div>
     )
+  }
+
+  async componentDidMount () {
+    const { privateKey, address } = await getCredentials()
+    this.state.privateKey = privateKey
+    this.state.address = address
   }
 }
 

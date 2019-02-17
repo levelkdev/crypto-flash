@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../components/Button'
+import getCredentials from '../utils'
 
 class Home extends React.Component {
   constructor(props) {
@@ -17,6 +18,14 @@ class Home extends React.Component {
       </div>
     )
   }
+
+  async componentDidMount () {
+    const { privateKey, address } = await getCredentials()
+
+    this.state.privateKey = privateKey
+    this.state.address = address
+  }
+
 }
 
 export default Home

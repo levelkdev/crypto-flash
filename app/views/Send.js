@@ -5,6 +5,7 @@ import TextInput from '../components/TextInput'
 import Button from '../components/Button'
 import LinkButton from '../components/LinkButton'
 import EthSpinner from '../components/EthSpinner'
+import getCredentials from '../utils'
 
 class Send extends React.Component {
   constructor(props) {
@@ -67,6 +68,13 @@ class Send extends React.Component {
       </div>
     )
   }
+
+  async componentDidMount () {
+    const { privateKey, address } = await getCredentials()
+    this.state.privateKey = privateKey
+    this.state.address = address
+  }
+
 }
 
 async function createTempAccount (ethAmount) {
