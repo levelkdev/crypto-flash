@@ -5,7 +5,10 @@
   "dependencies": {
     "@ensdomains/ens": "0.3.3",
     "axios": "^0.18.0",
+    "bip39": "^2.5.0",
     "core-js": "^2.6.5",
+    "eth-lib": "^0.2.8",
+    "ethereumjs-wallet": "^0.6.3",
     "express": "4.16.4",
     "openzeppelin-solidity": "2.1.2",
     "react": "16.8.2",
