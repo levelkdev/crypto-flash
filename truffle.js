@@ -16,7 +16,7 @@ module.exports = {
       provider: mnemonic ? new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io') : undefined,
       network_id: '*',
       gas: 6000000,
-      gasPrice: 20 * 10 ** 9,
+      gasPrice: 10 * 10 ** 9,
     },
     development: {
       host: 'localhost',

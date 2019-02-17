@@ -4,6 +4,7 @@ const config = require('../configs/config.js')
 const { computeCreate2Address, getEnsLabelHash, sha3 } = require('@netgum/utils')
 const platformAccountByteCode = require('./web3Contracts/PlatformAccount.bytecode.js')
 const PlatformAccountProvider = require('./web3Contracts/PlatformAccountProvider')
+const PlatformAccount = require('./web3Contracts/PlatformAccount')
 
 
 const express = require('express')
@@ -67,6 +68,16 @@ app.get('/signCreateAccount', function (req, res) {
   }).catch((err) => {
     console.error(err)
     res.err(err)
+  })
+})
+
+app.get('/sendFunds', function (req, res) {
+  const { account, to , value } = req.query
+
+  PlatformAccount.at(account).then((instance) => {
+    return instance.executeTransaction(to, value, web3.utils.utf8ToHex(''))
+  }).then((tx) => {
+    res.send('Sent: ' + value + ' wei')
   })
 })
 

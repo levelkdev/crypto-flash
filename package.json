@@ -41,7 +41,10 @@
     "cleanup:dist": "rm -rf dist",
     "compile": "npm run cleanup:build && truffle compile --all",
     "migrate": "truffle migrate",
+    "migrate-rinkeby": "truffle migrate --network=rinkeby",
     "deploy": "npm run migrate && truffle exec scripts/deploy_dependencies.js",
+    "deploy-rinkeby": "npm run migrate-rinkeby && truffle exec scripts/deploy_dependencies.js --network=rinkeby",
+    "deploy-ens": "truffle exec scripts/deploy_ens.js --network=rinkeby",
     "ganache": "scripts/run_ganache.sh"
   }
 }
