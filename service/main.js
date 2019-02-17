@@ -82,7 +82,7 @@ app.get('/signCreateAccount', function (req, res) {
     return web3.eth.sendSignedTransaction(tx.rawTransaction)
   }).then((tx) => {
     console.log('TX: ', tx)
-    console.log("actual address: " + tx.logs[0].args.accountAddress)
+    // console.log("actual address: " + tx.logs[0].args.accountAddress)
     res.send('SIIIGNED')
   }).catch((err) => {
     console.error(err)
