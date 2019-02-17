@@ -74,9 +74,31 @@ app.get('/signCreateAccount', function (req, res) {
 
 app.get('/sendFunds', function (req, res) {
   const { account, to , value } = req.query
+  const guardian = getGuardianAccount()
 
-  PlatformAccount.at(account).then((instance) => {
-    return instance.executeTransaction(to, value, web3.utils.utf8ToHex(''))
+  let instance
+  PlatformAccount.at(account).then((_instance) => {
+    instance = _instance
+    return instance.executeTransaction.estimateGas(
+      to,
+      value,
+      web3.utils.utf8ToHex(''),
+      { 
+        from: guardian.address,
+        gasPrice: 10000000000 
+      }
+    )
+  }).then((estimateGas) => {
+    return instance.executeTransaction(
+      to,
+      value,
+      web3.utils.utf8ToHex(''),
+      { 
+        from: guardian.address,
+        gas: estimateGas,
+        gasPrice: 10000000000 
+      }
+    )
   }).then((tx) => {
     res.send('Sent: ' + value + ' wei')
   })
