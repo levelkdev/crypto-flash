@@ -125,11 +125,7 @@ class Claim extends React.Component {
       console.log(`Requesting ${createAccountEndpoint}`)
       let createAccountResponse = await axios.get(createAccountEndpoint)
       console.log('RESPONSE: ', createAccountResponse)
-
-      // setTimeout(() => {
-      //   $this.props.history.push('/')
-      //   resolve()
-      // }, 1000)
+      $this.props.history.push('/')
     })
   }
 
