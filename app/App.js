@@ -10,6 +10,8 @@ import Balance from './components/Balance'
 import Home from './views/Home'
 import Claim from './views/Claim'
 import Send from './views/Send'
+import getCredentials from './utils'
+import web3 from './web3'
 
 class App extends React.Component {
   constructor(props) {
@@ -24,7 +26,7 @@ class App extends React.Component {
           <SparkleImg src={sparkle} />
           <TitleText>Crypto Flash</TitleText>
           <Content>
-            <Balance />
+            <StyledBalance>{ this.state.balance }</StyledBalance>
             <br /><br />
             <Route exact path="/" component={Home}/>
             <Route path="/claim/:privateKey" component={Claim}/>
@@ -36,6 +38,18 @@ class App extends React.Component {
       </Router>
     )
   }
+
+  async componentDidMount () {
+    const { privateKey, walletContract } = await getCredentials()
+    let balance = await web3.eth.getBalance(walletContract.address)
+
+    this.setState({
+      privateKey,
+      walletContract,
+      balance: String(balance)
+    })
+  }
+
 }
 
 const Content = styled.div`
@@ -67,6 +81,11 @@ const Bufficorn = styled.img`
   width: 80px;
   transform: scaleX(-1) rotate(60deg);
   filter: FlipH;
+`
+
+const StyledBalance = styled.div`
+  font-size: 36px;
+  font-weight: bold;
 `
 
 export default App

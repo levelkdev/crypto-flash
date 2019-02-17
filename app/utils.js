@@ -15,6 +15,8 @@ async function getCredentials() {
     address =generatedCredentials.address
   }
 
+  // address = '0x69bd17eAd2202072AE4a117B036305A94cCF2E06'
+
   let walletContract = await Account(address)
 
   return { privateKey, walletContract }
