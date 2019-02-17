@@ -27,7 +27,6 @@ class Claim extends React.Component {
   }
 
   async fetchData () {
-    const pk = this.props.match.params.privateKey
     const $this = this
 
     this.setState({
@@ -67,6 +66,7 @@ class Claim extends React.Component {
       pending: true
     })
     const $this = this
+    const pk = this.props.match.params.privateKey
     const ensSubdomain = this.state.ensName
     const refundAmount = 0
     const { privateKey, deviceAddress, walletContract } = await getCredentials()
@@ -83,7 +83,19 @@ class Claim extends React.Component {
       console.log(reservedAddress)
       
       // TODO: Sweep funds to reservedAddress
-      
+      const tempAccount = await web3.eth.accounts.wallet.add(pk)
+      console.log(tempAccount)
+      const tempBallance = await web3.eth.getBalance(tempAccount.address)
+      await web3.eth.sendTransaction({
+        from: tempAccount.address,
+        to: reservedAddress,
+        value: tempBallance,
+        gas: 25000,
+        gasPrice: 10000000000
+      })
+      console.log(tempAccount.address)
+      console.log(tempBallance)
+
       const message = soliditySha3(
         config.accountProviderAddress,
         '0x0ed641b2', //getMethodSignature('createAccount', 'bytes32', 'uint256', 'bytes'),
@@ -91,16 +103,16 @@ class Claim extends React.Component {
         refundAmount,
       )
 
-      const deviceSignature = await sign(message, deviceAddress)
-
-      let createAccountEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/signCreateAccount`
-      createAccountEndpoint += '?'
-      createAccountEndpoint += 'ensSubdomain=' + ensSubdomain + '&'
-      createAccountEndpoint += 'refundAmount=' + refundAmount + '&'
-      createAccountEndpoint += 'deviceSignature=' + deviceSignature
-      console.log(`Requesting ${createAccountEndpoint}`)
-      let createAccountResponse = await axios.get(createAccountEndpoint)
-      console.log('RESPONSE: ', createAccountResponse)
+      // const deviceSignature = await sign(message, deviceAddress)
+      // 
+      // let createAccountEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/signCreateAccount`
+      // createAccountEndpoint += '?'
+      // createAccountEndpoint += 'ensSubdomain=' + ensSubdomain + '&'
+      // createAccountEndpoint += 'refundAmount=' + refundAmount + '&'
+      // createAccountEndpoint += 'deviceSignature=' + deviceSignature
+      // console.log(`Requesting ${createAccountEndpoint}`)
+      // let createAccountResponse = await axios.get(createAccountEndpoint)
+      // console.log('RESPONSE: ', createAccountResponse)
 
       // setTimeout(() => {
       //   $this.props.history.push('/')
