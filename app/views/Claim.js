@@ -56,6 +56,12 @@ class Claim extends React.Component {
     this.fetchData()
   }
 
+  updateEnsName (evt) {
+    this.setState({
+      ensName: evt.target.value
+    })
+  }
+
   async claimFunds () {
     this.setState({
       pending: true
@@ -112,7 +118,7 @@ class Claim extends React.Component {
     return (
       <React.Fragment>
         <Header>Choose a username:</Header>
-        <TextInput /><AtSymbol>@</AtSymbol><EnsDomain>cryptoflash.eth</EnsDomain>
+        <TextInput value={this.state.ensName} onChange={this.updateEnsName.bind(this)}  /><AtSymbol>@</AtSymbol><EnsDomain>cryptoflash.eth</EnsDomain>
         <br /><br />
         <SubmitButton onClick={this.claimFunds.bind(this)}>
           Claim <ClaimBalance>{this.state.claimBalance} ETH</ClaimBalance>
