@@ -96,7 +96,7 @@ class Claim extends React.Component {
       console.log('TEMP ACCOUNT: ', tempAccount)
       const tempBalance = await web3.eth.getBalance(tempAccount.address)
       let val = toBN(tempBalance)
-      let newVal = val.sub(toBN(25000000000000))
+      let newVal = val.sub(toBN(250000000000000))
       console.log(newVal.toString())
       await web3.eth.sendTransaction({
         from: tempAccount.address,
