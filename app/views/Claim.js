@@ -1,14 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { withRouter } from 'react-router-dom'
 import Button from '../components/Button'
 import TextInput from '../components/TextInput'
 import EthSpinner from '../components/EthSpinner'
 import getCredentials from '../utils'
 
+
 class Claim extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      pending: false,
       claimBalance: null,
       ensName: '',
       ensNameCreated: false
@@ -18,19 +21,37 @@ class Claim extends React.Component {
   fetchClaimBalance () {
     const pk = this.props.match.params.privateKey
     const $this = this
+    this.setState({
+      pending: true
+    })
     // TODO: fetch the actual balance for pk
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         $this.setState({
+          pending: false,
           claimBalance: '100'
         })
         resolve()
-      }, 2000)
+      }, 1000)
     })
   }
 
   componentDidMount () {
     this.fetchClaimBalance()
+  }
+
+  claimFunds () {
+    this.setState({
+      pending: true
+    })
+    const $this = this
+    // TODO: do the whole fund claiming thing??
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        $this.props.history.push('/')
+        resolve()
+      }, 1000)
+    })
   }
 
   renderPending () {
@@ -45,7 +66,7 @@ class Claim extends React.Component {
         <Header>Choose a username:</Header>
         <TextInput /><AtSymbol>@</AtSymbol><EnsDomain>cryptoflash.eth</EnsDomain>
         <br /><br />
-        <SubmitButton>
+        <SubmitButton onClick={this.claimFunds.bind(this)}>
           Claim <ClaimBalance>{this.state.claimBalance} ETH</ClaimBalance>
         </SubmitButton>
       </React.Fragment>
@@ -55,7 +76,8 @@ class Claim extends React.Component {
   render() {
     return (
       <div>
-        {!this.state.claimBalance ? this.renderPending() : this.renderClaimForm()}
+        {this.state.pending ? this.renderPending() : null}
+        {!this.state.pending && this.state.claimBalance ? this.renderClaimForm() : null}
       </div>
     )
   }
@@ -97,4 +119,4 @@ const EnsDomain = styled.span`
   padding-left: 0;
 `
 
-export default Claim
+export default withRouter(Claim)
