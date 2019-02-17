@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Balance from '../components/Balance'
 import Button from '../components/Button'
 
 class Home extends React.Component {
@@ -13,7 +12,7 @@ class Home extends React.Component {
     return (
       <div>
         <Link to="/send">
-          <Button>SEND IT</Button>
+          <Button>Send Funds</Button>
         </Link>
       </div>
     )

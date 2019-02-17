@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import TextInput from '../components/TextInput'
 import Button from '../components/Button'
 import LinkButton from '../components/LinkButton'
 
@@ -12,7 +14,8 @@ class Send extends React.Component {
   render() {
     return (
       <div>
-        <Button>SEND</Button>
+        <TextInputStyled />
+        <Button>Generate Link</Button>
         <br />
         <Link to="/">
           <LinkButton>Cancel</LinkButton>
@@ -21,5 +24,9 @@ class Send extends React.Component {
     )
   }
 }
+
+const TextInputStyled = styled(TextInput)`
+  margin-right: 10px;
+`
 
 export default Send
