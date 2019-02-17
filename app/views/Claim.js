@@ -5,7 +5,9 @@ import Button from '../components/Button'
 import TextInput from '../components/TextInput'
 import EthSpinner from '../components/EthSpinner'
 import getCredentials from '../utils'
+import axios from 'axios'
 
+const CREATE_ACCOUNT_SIGNER_API = 'http://localhost:3000'
 
 class Claim extends React.Component {
   constructor(props) {
@@ -53,12 +55,42 @@ class Claim extends React.Component {
       pending: true
     })
     const $this = this
+    const ensSubdomain = 'account3.test'
     // TODO: do the whole fund claiming thing??
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        $this.props.history.push('/')
-        resolve()
-      }, 1000)
+      let accountAddressEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/accountForEnsSubdomain`
+      accountAddressEndpoint += '?'
+      accountAddressEndpoint += 'ensSubdomain=' + ensSubdomain
+      console.log(`Requesting ${accountAddressEndpoint}`)
+      let reservedAddress
+      axios.get(accountAddressEndpoint).then((res) => {
+        console.log('RESPONSE: ', res)
+        reservedAddress = res.data
+      }).then(() => {
+        // TODO: Sweep funds to reservedAddress
+      }).then(() => {
+        const ensSubdomain = 'account3.test'
+        const refundAmount = 0
+        const deviceSignature = '0x3aad30cf5c545632bc54353fbc992f0bc8b91c5e87a5e43cee5f199a7765ddad41781831a5a38dffecb6a343316bfa4de6263f9f7aa66dd8abf7e7d17c8e194a00'
+
+        let accountAddressEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/signCreateAccount`
+        accountAddressEndpoint += '?'
+        accountAddressEndpoint += 'ensSubdomain=' + ensSubdomain + '&'
+        accountAddressEndpoint += 'refundAmount=' + refundAmount + '&'
+        accountAddressEndpoint += 'deviceSignature=' + deviceSignature
+        console.log(`Requesting ${accountAddressEndpoint}`)
+        return axios.get(accountAddressEndpoint)
+      }).then((res) => {
+        console.log('RESPONSE: ', res)
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      
+      // setTimeout(() => {
+      //   $this.props.history.push('/')
+      //   resolve()
+      // }, 1000)
     })
   }
 

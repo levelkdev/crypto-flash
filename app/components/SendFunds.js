@@ -29,3 +29,4 @@ class SendFunds extends React.Component {
 }
 
 export default SendFunds
+ 
