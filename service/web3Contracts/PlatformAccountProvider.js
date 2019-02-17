@@ -1,4 +1,5 @@
 const abi =  require('./PlatformAccountProvider.abi.json')
+const contract = require("truffle-contract")
 const { web3 } = require('../utils/getWeb3')
 
 module.exports = function(address) {

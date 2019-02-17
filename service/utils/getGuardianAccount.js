@@ -8,7 +8,7 @@ function getGuardianAccount() {
   let wallet_hdpath = "m/44'/60'/0'/0/";
   let wallet = hdwallet.derivePath(wallet_hdpath + 0).getWallet();
   let privateKey = wallet.getPrivateKey().toString("hex")
-  let guardian = web3.eth.accounts.privateKeyToAccount(privateKey)
+  let guardian = web3.eth.accounts.privateKeyToAccount("0x" + privateKey)
   return guardian
 }
 
