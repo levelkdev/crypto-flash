@@ -93,7 +93,7 @@ async function createTempAccount (senderAddress, ethAmount, walletContract) {
 
   const txReceipt = await walletContract.executeTransaction(
     address,
-    web3.utils.toBN(1200000000000000000),
+    web3.utils.toBN(weiAmount),
     web3.utils.utf8ToHex(''),
     { from: senderAddress }
   )
