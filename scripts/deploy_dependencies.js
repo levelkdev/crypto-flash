@@ -2,13 +2,7 @@ const globalArtifacts = this.artifacts
 
 const {
   getEnsNameHash,
-  getEnsLabelHash,
-  // getEnsNameInfo,
-  // computeCreate2Address,
-  // abiEncodePacked,
-  // sha3,
-  // getMethodSignature,
-  // ZERO_ADDRESS,
+  getEnsLabelHash
 } = require('@netgum/utils');
 
 module.exports = async (
@@ -39,7 +33,6 @@ module.exports = async (
 
     ens = await ENSRegistry.new();
     console.log(`ENSRegistry ${ens.address}`)
-    
     const DEVICES = {
       guardian: accounts[0],
       accountProxy: accounts[8]
@@ -53,6 +46,7 @@ module.exports = async (
       PlatformAccount.binary,
     );
     console.log(`PlatformAccountProvider ${platformAccountProvider.address}`)
+    console.log(`guardian: ${DEVICES.guardian}`)
 
     await ens.setSubnodeOwner('0x00', getEnsLabelHash('test'), platformAccountProvider.address);
 

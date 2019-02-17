@@ -1,7 +1,7 @@
 const { getGuardianAccount } = require('./utils/getGuardianAccount')
 const { web3 } = require('./utils/getWeb3')
 const config = require('../configs/config.js')
-const { computeCreate2Address } = require('@netgum/utils')
+const { computeCreate2Address, getEnsLabelHash } = require('@netgum/utils')
 const platformAccountByteCode = require('./web3Contracts/PlatformAccount.bytecode.js')
 const PlatformAccountProvider = require('./web3Contracts/PlatformAccountProvider')
 
@@ -41,11 +41,22 @@ app.get('/signCreateAccount', function (req, res) {
   PlatformAccountProvider.at(config.accountProviderAddress).then((_instance) => {
     instance = _instance
     return instance.createAccount.estimateGas(
-      web3.utils.sha3(ensSubdomain),
+      getEnsLabelHash(ensSubdomain),
       refundAmount,
       deviceSignature,
       { 
         from: guardian.address, 
+        gasPrice: 10000000000 
+      }
+    )
+  }).then((estimateGas) => {
+    return instance.createAccount(
+      getEnsLabelHash(ensSubdomain),
+      refundAmount,
+      deviceSignature,
+      { 
+        from: guardian.address,
+        gas: estimateGas,
         gasPrice: 10000000000 
       }
     )
