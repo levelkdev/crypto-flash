@@ -5,6 +5,7 @@ const { computeCreate2Address, getEnsLabelHash, sha3 } = require('@netgum/utils'
 const platformAccountByteCode = require('../build/contracts/PlatformAccount.json').bytecode
 const PlatformAccountProvider = require('./web3Contracts/PlatformAccountProvider')
 const PlatformAccount = require('./web3Contracts/PlatformAccount')
+const PlatformAccountProviderW3 = require('./web3Contracts/PlatformAccountProviderWeb3')
 
 
 const express = require('express')
@@ -39,6 +40,7 @@ app.get('/signCreateAccount', function (req, res) {
   const guardian = getGuardianAccount()
   web3.eth.accounts.wallet.add(guardian)
   const { ensSubdomain, refundAmount, deviceSignature } = req.query
+  const platformAccountProviderW3 = PlatformAccountProviderW3(config.accountProviderAddress)
   let instance
   PlatformAccountProvider.at(config.accountProviderAddress).then((_instance) => {
     instance = _instance
@@ -52,16 +54,31 @@ app.get('/signCreateAccount', function (req, res) {
       }
     )
   }).then((estimateGas) => {
-    return instance.createAccount(
+    const txData = platformAccountProviderW3.methods.createAccount(
       getEnsLabelHash(ensSubdomain),
       refundAmount,
-      deviceSignature,
-      { 
-        from: guardian.address,
-        gas: estimateGas,
-        gasPrice: 10000000000 
-      }
-    )
+      deviceSignature
+    ).encodeABI()
+    
+    return web3.eth.accounts.signTransaction({
+      from: guardian.address,
+      gas: estimateGas,
+      gasPrice: 10000000000,
+      data: txData
+    }, '0x0c6ee92fc2d221265004e1692607fd7db5f132836ec0c84a7313ceae6306f546')
+    
+    // return instance.createAccount(
+    //   getEnsLabelHash(ensSubdomain),
+    //   refundAmount,
+    //   deviceSignature,
+    //   { 
+    //     from: guardian.address,
+    //     gas: estimateGas,
+    //     gasPrice: 10000000000 
+    //   }
+    // )
+  }).then((tx) => {
+    return web3.eth.sendSignedTransaction(tx.rawTransaction)
   }).then((tx) => {
     console.log('TX: ', tx)
     console.log("actual address: " + tx.logs[0].args.accountAddress)
@@ -74,10 +91,12 @@ app.get('/signCreateAccount', function (req, res) {
 
 app.get('/sendFunds', function (req, res) {
   const { account, to , value } = req.query
+  console.log('sendFunds requested: ' + account + ', ' + to + ', ' + value )
   const guardian = getGuardianAccount()
 
   let instance
   PlatformAccount.at(account).then((_instance) => {
+    console.log('PlatformAccount instance')
     instance = _instance
     return instance.executeTransaction.estimateGas(
       to,
