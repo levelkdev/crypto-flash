@@ -9,6 +9,7 @@ import axios from 'axios'
 import web3 from '../web3'
 import config from '../../configs/config.js'
 import { getEnsLabelHash } from '@netgum/utils'
+import formatBalance from '../formatBalance'
 
 const { soliditySha3, toBN } = web3.utils
 const { sign } = web3.eth
@@ -28,9 +29,14 @@ class Claim extends React.Component {
 
   async fetchData () {
     const $this = this
+    const pk = this.props.match.params.privateKey
+
+    const acct = web3.eth.accounts.privateKeyToAccount(pk)
+    const bal = formatBalance(await web3.eth.getBalance(acct.address))
 
     this.setState({
-      pending: true
+      pending: true,
+      claimBalance: bal
     })
 
     const { privateKey, walletContract } = await getCredentials()
@@ -43,8 +49,7 @@ class Claim extends React.Component {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         $this.setState({
-          pending: false,
-          claimBalance: '100'
+          pending: false
         })
         resolve()
       }, 1000)
