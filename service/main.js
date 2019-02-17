@@ -99,7 +99,6 @@ app.get('/sendFunds', function (req, res) {
 
   let instance
   PlatformAccount.at(account).then((_instance) => {
-    console.log('PlatformAccount instance')
     instance = _instance
     return instance.executeTransaction.estimateGas(
       to,
