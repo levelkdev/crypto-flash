@@ -18,12 +18,20 @@ class Claim extends React.Component {
     }
   }
 
-  fetchClaimBalance () {
+  async fetchData () {
     const pk = this.props.match.params.privateKey
     const $this = this
+
     this.setState({
       pending: true
     })
+
+    const { privateKey, walletContract } = await getCredentials()
+    this.setState({
+      privateKey,
+      walletContract
+    })
+
     // TODO: fetch the actual balance for pk
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -37,7 +45,7 @@ class Claim extends React.Component {
   }
 
   componentDidMount () {
-    this.fetchClaimBalance()
+    this.fetchData()
   }
 
   claimFunds () {
@@ -80,14 +88,6 @@ class Claim extends React.Component {
         {!this.state.pending && this.state.claimBalance ? this.renderClaimForm() : null}
       </div>
     )
-  }
-
-  async componentDidMount () {
-    const { privateKey, walletContract } = await getCredentials()
-    this.setState({
-      privateKey,
-      walletContract
-    })
   }
 }
 
