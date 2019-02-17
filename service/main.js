@@ -1,8 +1,10 @@
 const { getGuardianAccount } = require('./utils/getGuardianAccount')
 const { web3 } = require('./utils/getWeb3')
-const { config } = require('../configs/config.js')
+const config = require('../configs/config.js')
 const { computeCreate2Address } = require('@netgum/utils')
 const platformAccountByteCode = require('./web3Contracts/PlatformAccount.bytecode.js')
+const PlatformAccountProvider = require('./web3Contracts/PlatformAccountProvider')
+
 
 const express = require('express')
 const app = express()
@@ -33,8 +35,27 @@ app.get('/accountForEnsSubdomain', function (req, res) {
 
 app.get('/signCreateAccount', function (req, res) {
   const guardian = getGuardianAccount()
-  
-  res.send('SIIIGNED')
+  web3.eth.accounts.wallet.add(guardian)
+  const { ensSubdomain, refundAmount, deviceSignature } = req.query
+  let instance
+  PlatformAccountProvider.at(config.accountProviderAddress).then((_instance) => {
+    instance = _instance
+    return instance.createAccount.estimateGas(
+      web3.utils.sha3(ensSubdomain),
+      refundAmount,
+      deviceSignature,
+      { 
+        from: guardian.address, 
+        gasPrice: 10000000000 
+      }
+    )
+  }).then((tx) => {
+    console.log(tx)
+    res.send('SIIIGNED')
+  }).catch((err) => {
+    console.error(err)
+    res.err(err)
+  })
 })
 
 app.listen(port, () => console.log(`Crypto Flash API listening on port ${port}`))
