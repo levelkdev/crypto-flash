@@ -34,8 +34,8 @@
     "truffle-hdwallet-provider": "1.0.4"
   },
   "scripts": {
-    "start": "npm run cleanup:build && cross-env NODE_ENV=development parcel app/index.html ",
-    "build": "npm run cleanup:build && cross-env NODE_ENV=development parcel build app/index.html --no-minify --public-url /",
+    "start": "cross-env NODE_ENV=development parcel app/index.html ",
+    "build": "cross-env NODE_ENV=development parcel build app/index.html --no-minify --public-url /",
     "service": "node service/main.js",
     "cleanup:build": "rm -rf build",
     "cleanup:dist": "rm -rf dist",

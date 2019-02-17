@@ -1,4 +1,4 @@
-const platformAccountProviderJSON =  require('./PlatformAccountProvider.json')
+const platformAccountProviderJSON =  require('../../build/contracts/PlatformAccountProvider.json')
 const Contract = require('truffle-contract')
 const config = require('../../configs/config.js')
 const { web3 } = require('../utils/getWeb3')
