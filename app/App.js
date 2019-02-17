@@ -26,6 +26,7 @@ class App extends React.Component {
           <SparkleImg src={sparkle} />
           <TitleText>Crypto Flash</TitleText>
           <Content>
+            { this.state.ensName ? <Username>{this.state.ensName}@cryptoflash.eth</Username> : null }
             <StyledBalance>{ this.state.balance } ETH</StyledBalance>
             <br /><br />
             <Route exact path="/" component={Home}/>
@@ -40,7 +41,7 @@ class App extends React.Component {
   }
 
   async componentDidMount () {
-    const { privateKey, walletContract } = await getCredentials()
+    const { privateKey, walletContract, ensName } = await getCredentials()
 
     web3.eth.accounts.wallet.add(privateKey)
 
@@ -52,7 +53,8 @@ class App extends React.Component {
     this.setState({
       privateKey,
       walletContract,
-      balance: formatBalance(balance)
+      balance: formatBalance(balance),
+      ensName
     })
   }
 
@@ -92,6 +94,10 @@ const Bufficorn = styled.img`
 const StyledBalance = styled.div`
   font-size: 36px;
   font-weight: bold;
+`
+
+const Username = styled.div`
+
 `
 
 export default App
