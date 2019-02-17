@@ -1,3 +1,6 @@
+const { getGuardianAccount } = require('./utils/getGuardianAccount')
+const { web3 } = require('./utils/getWeb3')
+
 const express = require('express')
 const app = express()
 const port = 3000
@@ -14,6 +17,8 @@ app.use(function(req, res, next) {
 app.get('/', (req, res) => res.send('Crypto Flash API'))
 
 app.get('/signCreateAccount', function (req, res) {
+  const guardian = getGuardianAddress()
+  
   res.send('SIIIGNED')
 })
 
