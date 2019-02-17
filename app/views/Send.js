@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Balance from '../components/Balance'
 import Button from '../components/Button'
+import LinkButton from '../components/LinkButton'
 
-class Home extends React.Component {
+class Send extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -12,12 +12,14 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <Link to="/send">
-          <Button>SEND IT</Button>
+        <Button>SEND</Button>
+        <br />
+        <Link to="/">
+          <LinkButton>Cancel</LinkButton>
         </Link>
       </div>
     )
   }
 }
 
-export default Home
+export default Send
