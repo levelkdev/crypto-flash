@@ -124,7 +124,6 @@ async function createTempAccount (deviceAddress, ethAmount, walletAddress, walle
   console.log('SEND FUNDS RESP: ', sendFundsResp)
 
   console.log(`Created account ${address} : ${privateKey}`)
-  console.log('txReceipt: ', txReceipt)
   const claimLink = CLAIM_URL + privateKey
   console.log(claimLink)
   return claimLink
