@@ -58,7 +58,7 @@ class Claim extends React.Component {
     const ensSubdomain = 'account3.test'
     // TODO: do the whole fund claiming thing??
     return new Promise((resolve, reject) => {
-      let accountAddressEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/accountForEnsSubdomain`
+      let accountAddressEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/accountForDevice`
       accountAddressEndpoint += '?'
       accountAddressEndpoint += 'ensSubdomain=' + ensSubdomain
       console.log(`Requesting ${accountAddressEndpoint}`)

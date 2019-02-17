@@ -22,9 +22,9 @@ app.use(function(req, res, next) {
 
 app.get('/', (req, res) => res.send('Crypto Flash API'))
 
-app.get('/accountForEnsSubdomain', function (req, res) {
-  const ensSubdomain = req.query.ensSubdomain
-  const salt = web3.utils.soliditySha3(ensSubdomain)
+app.get('/accountForDevice', function (req, res) {
+  const device = req.query.device
+  const salt = web3.utils.soliditySha3(device)
   const computedAddress = computeCreate2Address(
     config.accountProviderAddress,
     salt,
