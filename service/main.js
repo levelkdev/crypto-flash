@@ -61,7 +61,7 @@ app.get('/signCreateAccount', function (req, res) {
       }
     )
   }).then((tx) => {
-    console.log(tx)
+    console.log(tx.logs[0].args[0])
     res.send('SIIIGNED')
   }).catch((err) => {
     console.error(err)
