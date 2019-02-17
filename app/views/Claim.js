@@ -67,7 +67,7 @@ class Claim extends React.Component {
       pending: true
     })
     const $this = this
-    const ensSubdomain = 'account3.test'
+    const ensSubdomain = this.state.ensName
     const refundAmount = 0
     const { privateKey, deviceAddress, walletContract } = await getCredentials()
 
@@ -80,6 +80,7 @@ class Claim extends React.Component {
       const accountAddressRes = await axios.get(accountAddressEndpoint)
       console.log('RESPONSE: ', accountAddressRes)
       reservedAddress = accountAddressRes.data
+      console.log(reservedAddress)
       
       // TODO: Sweep funds to reservedAddress
 
