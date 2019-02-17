@@ -68,6 +68,9 @@ class Claim extends React.Component {
     const $this = this
     const pk = this.props.match.params.privateKey
     const ensSubdomain = this.state.ensName
+
+    localStorage.setItem('ensName', ensSubdomain)
+
     const refundAmount = 0
     const { deviceAddress } = await getCredentials()
 
