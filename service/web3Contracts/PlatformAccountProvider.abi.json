@@ -1,0 +1,215 @@
+[
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "guardian",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_signature",
+          "type": "bytes"
+        },
+        {
+          "name": "_message",
+          "type": "bytes"
+        }
+      ],
+      "name": "verifyGuardianSignature",
+      "outputs": [
+        {
+          "name": "_device",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_ens",
+          "type": "address"
+        },
+        {
+          "name": "_ensNode",
+          "type": "bytes32"
+        },
+        {
+          "name": "_guardian",
+          "type": "address"
+        },
+        {
+          "name": "_accountProxy",
+          "type": "address"
+        },
+        {
+          "name": "_contractCode",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "node",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "AddrChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "accountAddress",
+          "type": "address"
+        }
+      ],
+      "name": "AccountCreated",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_node",
+          "type": "bytes32"
+        }
+      ],
+      "name": "addr",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_node",
+          "type": "bytes32"
+        },
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setAddr",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "releaseENSNode",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_ensLabel",
+          "type": "bytes32"
+        },
+        {
+          "name": "_refundAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "_deviceSignature",
+          "type": "bytes"
+        },
+        {
+          "name": "_guardianSignature",
+          "type": "bytes"
+        }
+      ],
+      "name": "createAccountWithGuardianSignature",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_ensLabel",
+          "type": "bytes32"
+        },
+        {
+          "name": "_refundAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "_deviceSignature",
+          "type": "bytes"
+        }
+      ],
+      "name": "createAccount",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_accountId",
+          "type": "uint256"
+        },
+        {
+          "name": "_device",
+          "type": "address"
+        },
+        {
+          "name": "_ensLabel",
+          "type": "bytes32"
+        },
+        {
+          "name": "_refundAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "unsafeCreateAccount",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]

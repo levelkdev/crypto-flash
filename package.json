@@ -4,6 +4,7 @@
   "description": "send me some eth, how bout dat?",
   "dependencies": {
     "@ensdomains/ens": "0.3.3",
+    "@netgum/utils": "0.0.5",
     "axios": "^0.18.0",
     "bip39": "^2.5.0",
     "core-js": "^2.6.5",
