@@ -6,12 +6,12 @@ import {
 } from 'react-router-dom'
 import sparkle from './assets/sparkle.png'
 import bufficorn from './assets/bufficorn.png'
-import Balance from './components/Balance'
 import Home from './views/Home'
 import Claim from './views/Claim'
 import Send from './views/Send'
 import getCredentials from './utils'
 import web3 from './web3'
+import formatBalance from './formatBalance'
 
 class App extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class App extends React.Component {
           <SparkleImg src={sparkle} />
           <TitleText>Crypto Flash</TitleText>
           <Content>
-            <StyledBalance>{ this.state.balance }</StyledBalance>
+            <StyledBalance>{ this.state.balance } ETH</StyledBalance>
             <br /><br />
             <Route exact path="/" component={Home}/>
             <Route path="/claim/:privateKey" component={Claim}/>
@@ -46,7 +46,7 @@ class App extends React.Component {
     this.setState({
       privateKey,
       walletContract,
-      balance: String(balance)
+      balance: formatBalance(balance)
     })
   }
 
