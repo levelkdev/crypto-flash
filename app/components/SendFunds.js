@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import styled from 'styled-components'
+import Button from './Button'
 
 const CREATE_ACCOUNT_SIGNER_API = 'http://localhost:3000'
 
@@ -27,14 +27,5 @@ class SendFunds extends React.Component {
     )
   }
 }
-
-const Button = styled.div`
-  background: #f6ff00;
-  padding: 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-block;
-  color: #5f5f5f;
-`
 
 export default SendFunds

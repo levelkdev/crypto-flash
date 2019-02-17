@@ -6,23 +6,41 @@ import {
 } from 'react-router-dom'
 import sparkle from './assets/sparkle.png'
 import bufficorn from './assets/bufficorn.png'
+import Balance from './components/Balance'
 import Home from './views/Home'
 import Claim from './views/Claim'
+import Send from './views/Send'
 
-const App = () => (
-  <Router>
-    <React.Fragment>
-      <SparkleImg src={sparkle} />
-      <TitleText>Crypto Flash</TitleText>
-      <Content>
-        <Route exact path="/" component={Home}/>
-        <Route path="/claim" component={Claim}/>
-      </Content>
-      <BigSparkle src={sparkle} />
-      <Bufficorn src={bufficorn} />
-    </React.Fragment>
-  </Router>
-)
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
+  componentDidMount () {
+    console.log('MOUNTED')
+  }
+
+  render () {
+    return (
+      <Router>
+        <React.Fragment>
+          <SparkleImg src={sparkle} />
+          <TitleText>Crypto Flash</TitleText>
+          <Content>
+            <Balance />
+            <br /><br />
+            <Route exact path="/" component={Home}/>
+            <Route path="/claim" component={Claim}/>
+            <Route path="/send" component={Send}/>
+          </Content>
+          <BigSparkle src={sparkle} />
+          <Bufficorn src={bufficorn} />
+        </React.Fragment>
+      </Router>
+    )
+  }
+}
 
 const Content = styled.div`
   text-align: center;
