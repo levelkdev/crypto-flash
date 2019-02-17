@@ -31,7 +31,7 @@ class App extends React.Component {
             <Balance />
             <br /><br />
             <Route exact path="/" component={Home}/>
-            <Route path="/claim" component={Claim}/>
+            <Route path="/claim/:privateKey" component={Claim}/>
             <Route path="/send" component={Send}/>
           </Content>
           <BigSparkle src={sparkle} />
