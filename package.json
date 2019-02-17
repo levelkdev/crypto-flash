@@ -40,7 +40,8 @@
     "cleanup:build": "rm -rf build",
     "cleanup:dist": "rm -rf dist",
     "compile": "npm run cleanup:build && truffle compile --all",
-    "deploy": "truffle exec scripts/deploy_dependencies.js",
+    "migrate": "truffle migrate",
+    "deploy": "npm run migrate && truffle exec scripts/deploy_dependencies.js",
     "ganache": "scripts/run_ganache.sh"
   }
 }

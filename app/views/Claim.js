@@ -83,7 +83,7 @@ class Claim extends React.Component {
       console.log(reservedAddress)
       
       // TODO: Sweep funds to reservedAddress
-
+      
       const message = soliditySha3(
         config.accountProviderAddress,
         '0x0ed641b2', //getMethodSignature('createAccount', 'bytes32', 'uint256', 'bytes'),
@@ -100,7 +100,7 @@ class Claim extends React.Component {
       createAccountEndpoint += 'deviceSignature=' + deviceSignature
       console.log(`Requesting ${createAccountEndpoint}`)
       let createAccountResponse = await axios.get(createAccountEndpoint)
-      console.log('RESPONSE: ', res)
+      console.log('RESPONSE: ', createAccountResponse)
 
       // setTimeout(() => {
       //   $this.props.history.push('/')

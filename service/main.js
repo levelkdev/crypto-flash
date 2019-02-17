@@ -1,7 +1,7 @@
 const { getGuardianAccount } = require('./utils/getGuardianAccount')
 const { web3 } = require('./utils/getWeb3')
 const config = require('../configs/config.js')
-const { computeCreate2Address, getEnsLabelHash } = require('@netgum/utils')
+const { computeCreate2Address, getEnsLabelHash, sha3 } = require('@netgum/utils')
 const platformAccountByteCode = require('./web3Contracts/PlatformAccount.bytecode.js')
 const PlatformAccountProvider = require('./web3Contracts/PlatformAccountProvider')
 
@@ -24,12 +24,13 @@ app.get('/', (req, res) => res.send('Crypto Flash API'))
 
 app.get('/accountForDevice', function (req, res) {
   const device = req.query.device
-  const salt = web3.utils.soliditySha3(device)
+  const salt = web3.utils.sha3(device)
   const computedAddress = computeCreate2Address(
     config.accountProviderAddress,
     salt,
     platformAccountByteCode,
   );
+  console.log("computed address: " + computedAddress)
   res.send(computedAddress)
 })
 
@@ -61,7 +62,7 @@ app.get('/signCreateAccount', function (req, res) {
       }
     )
   }).then((tx) => {
-    console.log(tx.logs[0].args[0])
+    console.log("actual address: " + tx.logs[0].args.accountAddress)
     res.send('SIIIGNED')
   }).catch((err) => {
     console.error(err)
