@@ -41,13 +41,13 @@ class App extends React.Component {
   }
 
   async componentDidMount () {
-    const { privateKey, walletContract, ensName } = await getCredentials()
+    const { privateKey, walletAddress, walletContract, ensName } = await getCredentials()
 
     web3.eth.accounts.wallet.add(privateKey)
 
     let balance = 0
     if (walletContract) {
-      balance = await web3.eth.getBalance(walletContract.address)
+      balance = await web3.eth.getBalance(walletAddress)
     }
 
     this.setState({

@@ -20,7 +20,8 @@ async function getCredentials() {
   ensName = localStorage.getItem('ensName') || null
   walletAddress = localStorage.getItem('walletAddress')
   if (walletAddress) {
-    walletContract = await Account.at(walletAddress)
+    // walletContract = await Account.at(walletAddress)
+    walletContract = Account(walletAddress)
   }
 
   return {
