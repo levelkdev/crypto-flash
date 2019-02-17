@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
 app.get('/', (req, res) => res.send('Crypto Flash API'))
 
 app.get('/signCreateAccount', function (req, res) {
-  const guardian = getGuardianAddress()
+  const guardian = getGuardianAccount()
   
   res.send('SIIIGNED')
 })

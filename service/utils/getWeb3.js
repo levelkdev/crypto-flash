@@ -1,7 +1,7 @@
 const Web3 = require('web3')
-const { infuraAPIKey } = require('../../secrets.json')
+const { config } = require('../../configs/config')
 
-const web3 = new Web3('https://rinkeby.infura.io/v3/' + infuraAPIKey)
+const web3 = new Web3(config.rpcProviderURL)
 
 module.exports = {
   web3

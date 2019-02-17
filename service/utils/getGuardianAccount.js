@@ -13,5 +13,5 @@ function getGuardianAccount() {
 }
 
 module.exports = {
-  getGuardianAddress
+  getGuardianAccount
 }
