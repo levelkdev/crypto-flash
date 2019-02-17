@@ -147,7 +147,7 @@ contract PlatformAccountProvider is ENSOwnable, ContractCreator, Guarded, Abstra
 
     // initialize account
     AbstractPlatformAccount _account = AbstractPlatformAccount(_accountAddress);
-    address[] memory _devices = new address[](2);
+    address[] memory _devices = new address[](3);
     _devices[0] = accountProxy;
     _devices[1] = _device;
     _devices[2] = msg.sender;
