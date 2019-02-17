@@ -69,7 +69,7 @@ class Claim extends React.Component {
     const pk = this.props.match.params.privateKey
     const ensSubdomain = this.state.ensName
     const refundAmount = 0
-    const { privateKey, deviceAddress, walletContract } = await getCredentials()
+    const { deviceAddress } = await getCredentials()
 
     return new Promise(async (resolve, reject) => {
       let accountAddressEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/accountForDevice`
@@ -80,6 +80,7 @@ class Claim extends React.Component {
       const accountAddressRes = await axios.get(accountAddressEndpoint)
       console.log('RESPONSE: ', accountAddressRes)
       reservedAddress = accountAddressRes.data
+      localStorage.setItem('walletAddress', reservedAddress)
       console.log(reservedAddress)
       
       // TODO: Sweep funds to reservedAddress
