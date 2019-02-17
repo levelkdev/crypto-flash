@@ -6,6 +6,7 @@ const platformAccountByteCode = require('../build/contracts/PlatformAccount.json
 const PlatformAccountProvider = require('./web3Contracts/PlatformAccountProvider')
 const PlatformAccount = require('./web3Contracts/PlatformAccount')
 const PlatformAccountProviderW3 = require('./web3Contracts/PlatformAccountProviderWeb3')
+const PlatformAccountW3 = require('./web3Contracts/PlatformAccountWeb3')
 
 
 const express = require('express')
@@ -94,6 +95,7 @@ app.get('/sendFunds', function (req, res) {
   const { account, to , value } = req.query
   console.log('sendFunds requested: ' + account + ', ' + to + ', ' + value )
   const guardian = getGuardianAccount()
+  const platformAccountW3 = PlatformAccountW3(account)
 
   let instance
   PlatformAccount.at(account).then((_instance) => {
@@ -109,16 +111,32 @@ app.get('/sendFunds', function (req, res) {
       }
     )
   }).then((estimateGas) => {
-    return instance.executeTransaction(
+    const txData = platformAccountW3.methods.executeTransaction(
       to,
       value,
       web3.utils.utf8ToHex(''),
-      { 
-        from: guardian.address,
-        gas: estimateGas,
-        gasPrice: 10000000000 
-      }
-    )
+    ).encodeABI()
+
+    return web3.eth.accounts.signTransaction({
+      from: guardian.address,
+      to: account,
+      gas: estimateGas,
+      gasPrice: 10000000000,
+      data: txData
+    }, '0x0c6ee92fc2d221265004e1692607fd7db5f132836ec0c84a7313ceae6306f546')
+
+    // return instance.executeTransaction(
+    //   to,
+    //   value,
+    //   web3.utils.utf8ToHex(''),
+    //   { 
+    //     from: guardian.address,
+    //     gas: estimateGas,
+    //     gasPrice: 10000000000 
+    //   }
+    // )
+  }).then((tx) => {
+    return web3.eth.sendSignedTransaction(tx.rawTransaction)
   }).then((tx) => {
     res.send('Sent: ' + value + ' wei')
   })
