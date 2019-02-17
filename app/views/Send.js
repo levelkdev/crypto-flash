@@ -6,6 +6,9 @@ import Button from '../components/Button'
 import LinkButton from '../components/LinkButton'
 import EthSpinner from '../components/EthSpinner'
 import getCredentials from '../utils'
+import web3 from '../web3'
+
+const CLAIM_URL = 'http://localhost:1234/claim/'
 
 class Send extends React.Component {
   constructor(props) {
@@ -21,10 +24,14 @@ class Send extends React.Component {
     this.setState({
       linkGenerationPending: true
     })
-    await createTempAccount(this.state.ethAmount)
+    const link = await createTempAccount(
+      this.deviceAddress,
+      this.state.ethAmount,
+      this.walletContract
+    )
     this.setState({
       linkGenerationPending: false,
-      link: 'http://something.something'
+      link
     })
   }
 
@@ -55,7 +62,7 @@ class Send extends React.Component {
 
   renderLink () {
     return (
-      <div>LINKKKK</div>
+      <div>{this.state.link}</div>
     )
   }
 
@@ -70,23 +77,30 @@ class Send extends React.Component {
   }
 
   async componentDidMount () {
-    const { privateKey, walletContract } = await getCredentials()
-    this.setState({
-      privateKey,
-      walletContract
-    })
+    const { deviceAddress, walletContract } = await getCredentials()
+    this.deviceAddress = deviceAddress
+    this.walletContract = walletContract
   }
 
 }
 
-async function createTempAccount (ethAmount) {
-  // TODO: create a temporary account and send it eth
-  console.log(`CREATE ACCOUNT WITH ${ethAmount} ETH`)
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve()
-    }, 1000)
-  })
+async function createTempAccount (senderAddress, ethAmount, walletContract) {
+  console.log('SENDR: ', senderAddress)
+  console.log('AMT: ', ethAmount)
+  const weiAmount = parseInt(ethAmount) * 10 ** 18
+  // TODO: don't use timestamp for randomness...
+  console.log(`Creating temp account and sending ${weiAmount} wei from sender ${senderAddress}`)
+  const { address, privateKey } = await web3.eth.accounts.create(Date.now().toString())
+  const txReceipt = await walletContract.methods.executeTransaction(
+    address,
+    weiAmount,
+    ''
+  ).send({ from: senderAddress })
+  console.log(`Created account ${address} : ${privateKey}`)
+  console.log('txReceipt: ', txReceipt)
+  const claimLink = CLAIM_URL + privateKey
+  console.log(claimLink)
+  return claimLink
 }
 
 const TextInputStyled = styled(TextInput)`
