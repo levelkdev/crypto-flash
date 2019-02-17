@@ -10,9 +10,10 @@
 
 import Web3 from 'web3'
 import abi from './Account.abi.json'
+import config from '../../configs/config.js'
 
 const web3 = new Web3(
-  new Web3.providers.HttpProvider('http://localhost:8545')
+  new Web3.providers.HttpProvider(config.rpcProviderURL)
 )
 
 export default function (address) {

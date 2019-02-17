@@ -103,7 +103,7 @@ class Claim extends React.Component {
         to: reservedAddress,
         value: newVal,
         gas: 25000,
-        gasPrice: 8
+        gasPrice: 8 * 10 ** 9
       })
       console.log('TEMP ADDRESS: ', tempAccount.address)
       console.log('TEMP BALANCE: ', tempBalance)
