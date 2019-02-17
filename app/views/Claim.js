@@ -110,16 +110,16 @@ class Claim extends React.Component {
         refundAmount,
       )
 
-      // const deviceSignature = await sign(message, deviceAddress)
-      // 
-      // let createAccountEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/signCreateAccount`
-      // createAccountEndpoint += '?'
-      // createAccountEndpoint += 'ensSubdomain=' + ensSubdomain + '&'
-      // createAccountEndpoint += 'refundAmount=' + refundAmount + '&'
-      // createAccountEndpoint += 'deviceSignature=' + deviceSignature
-      // console.log(`Requesting ${createAccountEndpoint}`)
-      // let createAccountResponse = await axios.get(createAccountEndpoint)
-      // console.log('RESPONSE: ', createAccountResponse)
+      const deviceSignature = await sign(message, deviceAddress)
+      
+      let createAccountEndpoint = `${CREATE_ACCOUNT_SIGNER_API}/signCreateAccount`
+      createAccountEndpoint += '?'
+      createAccountEndpoint += 'ensSubdomain=' + ensSubdomain + '&'
+      createAccountEndpoint += 'refundAmount=' + refundAmount + '&'
+      createAccountEndpoint += 'deviceSignature=' + deviceSignature
+      console.log(`Requesting ${createAccountEndpoint}`)
+      let createAccountResponse = await axios.get(createAccountEndpoint)
+      console.log('RESPONSE: ', createAccountResponse)
 
       // setTimeout(() => {
       //   $this.props.history.push('/')
