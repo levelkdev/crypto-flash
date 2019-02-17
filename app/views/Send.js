@@ -7,6 +7,7 @@ import LinkButton from '../components/LinkButton'
 import EthSpinner from '../components/EthSpinner'
 import getCredentials from '../utils'
 import web3 from '../web3'
+import Account from '../web3Contracts/Account'
 
 const CLAIM_URL = 'http://localhost:1234/claim/'
 
@@ -87,15 +88,26 @@ class Send extends React.Component {
 async function createTempAccount (senderAddress, ethAmount, walletContract) {
   console.log('SENDR: ', senderAddress)
   console.log('AMT: ', ethAmount)
-  const weiAmount = parseInt(ethAmount) * 10 ** 18
+  const weiAmount = ethAmount * 10 ** 18
   // TODO: don't use timestamp for randomness...
   console.log(`Creating temp account and sending ${weiAmount} wei from sender ${senderAddress}`)
   const { address, privateKey } = await web3.eth.accounts.create(Date.now().toString())
-  const txReceipt = await walletContract.methods.executeTransaction(
+  // const txReceipt = await walletContract.methods.executeTransaction(
+  //   address,
+  //   weiAmount,
+  //   ''
+  // ).send({ from: senderAddress })
+
+  console.log('ADDR: ', address)
+  console.log('WEI: ', weiAmount)
+
+  const txReceipt = await walletContract.executeTransaction(
     address,
-    weiAmount,
-    ''
-  ).send({ from: senderAddress })
+    web3.utils.toBN(1200000000000000000),
+    web3.utils.utf8ToHex(''),
+    { from: senderAddress }
+  )
+
   console.log(`Created account ${address} : ${privateKey}`)
   console.log('txReceipt: ', txReceipt)
   const claimLink = CLAIM_URL + privateKey

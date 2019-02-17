@@ -1,6 +1,9 @@
-const abi =  require('./Account.abi.json')
-import web3 from '../web3'
+import AccountABI from './Account.json'
+import Contract from 'truffle-contract'
+import config from '../../configs/config.js'
 
-export default function(address) {
-  return new web3.eth.Contract(abi, address);
-}
+const contract = Contract(AccountABI)
+
+contract.setProvider(config.rpcProviderURL)
+
+export default contract
