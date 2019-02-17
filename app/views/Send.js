@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import TextInput from '../components/TextInput'
 import Button from '../components/Button'
 import LinkButton from '../components/LinkButton'
+import EthSpinner from '../components/EthSpinner'
 
 class Send extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class Send extends React.Component {
 
   renderPending () {
     return (
-      <div>PENDING...</div>
+      <EthSpinner />
     )
   }
 
