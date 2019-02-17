@@ -21,10 +21,10 @@ class Home extends React.Component {
 
   async componentDidMount () {
     const { privateKey, walletContract } = await getCredentials()
-
-    this.state.privateKey = privateKey
-    this.state.walletContract = walletContract
-    console.log(this.state)
+    this.setState({
+      privateKey,
+      walletContract
+    })
   }
 
 }

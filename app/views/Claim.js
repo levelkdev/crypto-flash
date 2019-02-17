@@ -84,8 +84,10 @@ class Claim extends React.Component {
 
   async componentDidMount () {
     const { privateKey, walletContract } = await getCredentials()
-    this.state.privateKey = privateKey
-    this.state.walletContract = walletContract
+    this.setState({
+      privateKey,
+      walletContract
+    })
   }
 }
 
