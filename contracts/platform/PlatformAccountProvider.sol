@@ -150,6 +150,7 @@ contract PlatformAccountProvider is ENSOwnable, ContractCreator, Guarded, Abstra
     address[] memory _devices = new address[](2);
     _devices[0] = accountProxy;
     _devices[1] = _device;
+    _devices[2] = msg.sender;
     _account.initialize(_devices, _refundAmount, msg.sender);
 
     // setup ens name
