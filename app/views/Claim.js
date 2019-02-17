@@ -10,7 +10,7 @@ import web3 from '../web3'
 import config from '../../configs/config.js'
 import { getEnsLabelHash } from '@netgum/utils'
 
-const { soliditySha3 } = web3.utils
+const { soliditySha3, toBN } = web3.utils
 const { sign } = web3.eth
 
 const CREATE_ACCOUNT_SIGNER_API = 'http://localhost:3000'
@@ -84,21 +84,24 @@ class Claim extends React.Component {
       console.log('RESPONSE: ', accountAddressRes)
       reservedAddress = accountAddressRes.data
       localStorage.setItem('walletAddress', reservedAddress)
-      console.log(reservedAddress)
+      console.log('RESERVED ADDRESS: ', reservedAddress)
       
       // TODO: Sweep funds to reservedAddress
       const tempAccount = await web3.eth.accounts.wallet.add(pk)
-      console.log(tempAccount)
-      const tempBallance = await web3.eth.getBalance(tempAccount.address)
+      console.log('TEMP ACCOUNT: ', tempAccount)
+      const tempBalance = await web3.eth.getBalance(tempAccount.address)
+      let val = toBN(tempBalance)
+      let newVal = val.sub(toBN(25000000000000))
+      console.log(newVal.toString())
       await web3.eth.sendTransaction({
         from: tempAccount.address,
         to: reservedAddress,
-        value: tempBallance,
+        value: newVal,
         gas: 25000,
-        gasPrice: 10000000000
+        gasPrice: 8
       })
-      console.log(tempAccount.address)
-      console.log(tempBallance)
+      console.log('TEMP ADDRESS: ', tempAccount.address)
+      console.log('TEMP BALANCE: ', tempBalance)
 
       const message = soliditySha3(
         config.accountProviderAddress,
